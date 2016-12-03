@@ -18,6 +18,7 @@
             }
         },
         "slotSpace" : "integer",
+        "bookingAllocatedTime" : "integer",
         "tables" : {
             "type" : "nested",
             "properties" : {

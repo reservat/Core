@@ -1,0 +1,26 @@
+{
+    "tables" : [{
+        "name" : 1,
+        "seats" : 4,
+        "features" : ["quiet"],
+        "canMerge" : false
+    }, {
+        "name" : 2,
+        "seats" : 2,
+        "canMerge" : true
+    }, {
+        "name" : 3,
+        "seats" : 2,
+        "canMerge" : true
+    }],
+    "openingTimes" : [{
+        "day" : "Monday",
+        "opens" : "8:30",
+        "closes" : "21:00"
+    },
+    {
+        "day" : "Tuesday",
+        "opens" : "9:30",
+        "closes" : "22:00"
+    }]
+}

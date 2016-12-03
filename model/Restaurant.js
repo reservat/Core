@@ -2,15 +2,21 @@
 
 let moment = require('moment');
 let dateHelper = require('../helpers/date');
+let EsModel = require('./EsModel');
 let OpeningTimes = require('./OpeningTimes');
 let Tables = require('./Tables');
 
-module.exports = class Restaurant {
+module.exports = class Restaurant extends EsModel {
     constructor(data) {
-        this.data = data ? data : {
+        // Defaults
+        super(data);
+        this.index = 'restaurant';
+        this.data = Object.assign({}, {
             openingTimes : [],
+            slotSpace : 15 * 60,
+            bookingAllocatedTimes : 60 * 60,
             tables : []
-        };
+        }, data);
     }
     getOpeningTimes() {
         return new OpeningTimes(this.data.openingTimes);
