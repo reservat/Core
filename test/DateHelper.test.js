@@ -21,4 +21,9 @@ describe("A DateHelper helper class", function() {
       expect(moment.minutes()).to.equal(45);
   });
 
+  it("can create a moment from a date stored in elasticsearch", function(){
+      let moment = DateHelper.momentFromElastic(1, 37812);
+      expect(moment.minutes()).to.equal(30);
+  });
+
 });
