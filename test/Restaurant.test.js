@@ -8,6 +8,8 @@ var expect = chai.expect;
 
 describe("A Restaurant Model", function() {
 
+  let fatJohnnys = new Restaurant();
+
   it("can have opening times", function() {
 
       let openingTimes = [
@@ -23,14 +25,28 @@ describe("A Restaurant Model", function() {
           }
       ];
 
-      var FatJohnnys = new Restaurant();
-
-      FatJohnnys.setOpeningTimes(openingTimes)
+      fatJohnnys.setOpeningTimes(openingTimes)
       .then((restaurant) => {
-          expect(restaurant.data.openingTimes.length).to.equal(2);
-      }, (err) => {
-          
+          let monday = restaurant.getOpeningTimes().on('Monday');
+          expect(monday.opens.format('H:mm')).to.equal('8:30');
       });
+
+  });
+
+  it("can update opening times", function(){
+
+      let newOpeningTimes = [{
+          day : 'Tuesday',
+          opens : '10:30',
+          closes : '18:30'
+      }];
+
+      fatJohnnys.setOpeningTimes(newOpeningTimes)
+      .then((restaurant) => {
+          let tuesday = restaurant.getOpeningTimes().on('Tuesday');
+          expect(tuesday.opens.format('H:mm')).to.equal('10:30');
+      })
+
 
   });
 

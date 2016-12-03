@@ -2,12 +2,17 @@
 
 let moment = require('moment');
 let dateHelper = require('../helpers/date');
+let OpeningTimes = require('./OpeningTimes');
 
 module.exports = class Restaurant {
     constructor(data) {
         this.data = data ? data : {
             openingTimes : []
         };
+
+    }
+    getOpeningTimes() {
+        return new OpeningTimes(this.data.openingTimes);
     }
     setOpeningTimes(days) {
         return new Promise(function(resolve, reject){

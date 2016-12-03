@@ -13,3 +13,7 @@ module.exports.momentFromDayAndHours = function(day, hoursAndMinutes) {
     const [hours, mins] = hoursAndMinutes.split(':');
     return new moment().day(day).hour(hours).minute(mins);
 }
+
+module.exports.momentFromElastic = function(day, seconds) {
+    return new moment().day(day).hours(0).minutes(0).seconds(0).second(seconds);
+}
