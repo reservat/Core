@@ -3,16 +3,51 @@
 let moment = require('moment');
 let dateHelper = require('../helpers/date');
 let OpeningTimes = require('./OpeningTimes');
+let Tables = require('./Tables');
 
 module.exports = class Restaurant {
     constructor(data) {
         this.data = data ? data : {
-            openingTimes : []
+            openingTimes : [],
+            tables : []
         };
-
     }
     getOpeningTimes() {
         return new OpeningTimes(this.data.openingTimes);
+    }
+    getTables() {
+        return new Tables(this.data.tables);
+    }
+    setTables(tables) {
+        return new Promise(function(resolve, reject){
+            let tablePromises = [];
+
+            tables.forEach(function(table){
+                tablePromises.push(this.setTable(table));
+            }.bind(this))
+
+            Promise.all(tablePromises).then(function(results){
+                resolve(results.pop());
+            }.bind(this));
+
+        }.bind(this));
+    }
+    setTable(table) {
+        return new Promise(function(resolve, reject){
+            let changed = false;
+            this.data.tables.forEach(function(savedTable, i){
+                if(savedTable.name == table.name){
+                    this.data.tables[i] = table;
+                    changed = true;
+                }
+            }.bind(this));
+
+            if(!changed){
+                this.data.tables.push(table);
+            }
+
+            resolve(this);
+        }.bind(this));
     }
     setOpeningTimes(days) {
         return new Promise(function(resolve, reject){
@@ -29,11 +64,10 @@ module.exports = class Restaurant {
             }.bind(this));
 
         }.bind(this));
-        
     }
     setOpeningTimeForDay(day, opens, closes) {
         return new Promise(function(resolve, reject){
-            
+
             let openTime = dateHelper.momentFromDayAndHours(day, opens);
             let closeTime = dateHelper.momentFromDayAndHours(day, closes);
 
