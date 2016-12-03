@@ -33,15 +33,9 @@ module.exports = class Restaurant {
     }
     setOpeningTimeForDay(day, opens, closes) {
         return new Promise(function(resolve, reject){
-
-            let openHours = opens.split(':');
-            let closeHours = closes.split(':');
-
-            dateHelper.momentFromDayAndHours(day, opens);
-            dateHelper.momentFromDayAndHours(day, closes);
-
-            let openTime = moment().day(day).hour(openHours[0]).minute(openHours[1]);
-            let closeTime = moment().day(day).hour(closeHours[0]).minute(closeHours[1]);
+            
+            let openTime = dateHelper.momentFromDayAndHours(day, opens);
+            let closeTime = dateHelper.momentFromDayAndHours(day, closes);
 
             let opensSeconds = dateHelper.secondsElapsed(openTime);
             let closesSeconds = dateHelper.secondsElapsed(closeTime);
