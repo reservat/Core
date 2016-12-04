@@ -5,7 +5,22 @@ module.exports = class EsModel {
     getId() {
         return this._id;
     }
-    _commitData() {
+    _update() {
+        return new Promise(function(resolve, reject){
+            ES.client.update({
+                index: this.index,
+                type: this.type,
+                id: this._id,
+                body: {
+                    doc : this.data
+                }
+            }, function(err, res){
+                if(err) reject(err);
+                resolve(res);
+            }.bind(this))
+        }.bind(this));
+    }
+    _create() {
         return new Promise(function(resolve, reject){
             ES.client.index({
                 index: this.index,
@@ -16,6 +31,20 @@ module.exports = class EsModel {
                 this._id = res._id;
                 resolve(res);
             }.bind(this));
+        }.bind(this));
+    }
+    delete() {
+        return new Promise(function(resolve, reject){
+            ES.client.delete({
+                index: this.index,
+                type: this.type,
+                id: this._id
+            }, function(err, res){
+                if(err) reject(err);
+                delete this._id;
+                // ermmm... what do we do now?
+                resolve(res);
+            }.bind(this))
         }.bind(this));
     }
     commit() {
@@ -35,7 +64,11 @@ module.exports = class EsModel {
                 promises.push(ES.logInfo(`${this.index}-commit`, this.data));
             }
 
-            promises.push(this._commitData());
+            if(!this._id){
+                promises.push(this._create());
+            } else {
+                promises.push(this._update());
+            }
 
             Promise.all(promises)
             .then(function(results){

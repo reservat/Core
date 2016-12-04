@@ -33,4 +33,23 @@ describe("An ElasticSearch Model class", function() {
         expect(Paulos.getId()).to.not.be.undefined;
     });
 
+    it("should update an existing record on second commit", function(done){
+        let restaurantName = `Paulo's Steakhouse`;
+        Paulos.setName(restaurantName);
+
+        Paulos.commit()
+        .then((res) => {
+            expect(Paulos.getName()).to.equal(`Paulo's Steakhouse`);
+            done();
+        });
+    });
+
+    it("should allow deletion of the document", function(done){
+        Paulos.delete()
+        .then((res) => {
+            expect(Paulos.getId()).to.be.undefined;
+            done();
+        });
+    });
+
 });
