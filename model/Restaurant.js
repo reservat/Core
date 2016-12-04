@@ -10,7 +10,8 @@ module.exports = class Restaurant extends EsModel {
     constructor(data) {
         // Defaults
         super(data);
-        this.index = 'restaurant';
+        this.index = 'restaurants';
+        this.type = 'restaurant';
         this.data = Object.assign({}, {
             openingTimes : [],
             slotSpace : 15 * 60,
@@ -23,6 +24,12 @@ module.exports = class Restaurant extends EsModel {
     }
     getTables() {
         return new Tables(this.data.tables);
+    }
+    setName(name) {
+        this.data.name = name;
+    }
+    getName() {
+        return this.data.name;
     }
     setTables(tables) {
         return new Promise(function(resolve, reject){

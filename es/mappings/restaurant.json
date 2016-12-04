@@ -1,31 +1,57 @@
 {
     "properties" : {
-        "name" : "string",
+        "name" : {
+            "type" : "string"
+        },
         "openingTimes" : {
             "type" : "nested",
             "properties" : {
-                "dayNo" : "integer",
-                "openingTime" : "integer",
-                "closingTime" : "integer"
+                "dayNo" : { 
+                    "type" : "integer" 
+                },
+                "openingTime" : { 
+                    "type" : "integer" 
+                },
+                "closingTime" : { 
+                    "type" : "integer" 
+                }
             }
         },
         "specialClosures" : {
             "type" : "nested",
             "properties" : {
-                "date" : "date",
-                "startTime" : "integer",
-                "endTime" : "integer"
+                "date" : {
+                    "type" : "date"
+                },
+                "startTime" : {
+                    "type" : "integer"
+                },
+                "endTime" : {
+                    "type" : "integer"
+                }
             }
         },
-        "slotSpace" : "integer",
-        "bookingAllocatedTime" : "integer",
+        "slotSpace" : {
+            "type" : "integer"
+        },
+        "bookingAllocatedTime" : {
+            "type" : "integer"
+        },
         "tables" : {
             "type" : "nested",
             "properties" : {
-                "name" : "string",
-                "canSeat" : "integer",
-                "features" : "string",
-                "canMerge" : "boolean"
+                "name" : { 
+                    "type" : "string" 
+                },
+                "canSeat" : {
+                    "type" :  "integer"
+                },
+                "features" : {
+                    "type" : "string"
+                },
+                "canMerge" : {
+                    "type" : "boolean"
+                }
             }
         }
     }
