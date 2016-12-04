@@ -2,6 +2,9 @@ let ES = require('../es/ESClient');
 let config = require('../config/dev.json');
 
 module.exports = class EsModel {
+    getId() {
+        return this._id;
+    }
     _commitData() {
         return new Promise(function(resolve, reject){
             ES.client.index({
@@ -10,8 +13,9 @@ module.exports = class EsModel {
                 body : this.data
             }, function(err, res){
                 if(err) reject(err);
+                this._id = res._id;
                 resolve(res);
-            });
+            }.bind(this));
         }.bind(this));
     }
     commit() {
