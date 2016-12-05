@@ -15,16 +15,16 @@ Request config settings from me :D
 
 `guests` - Number of seats required
 
-`day` - Unix Timestamp
--- or --
-Range:
-`rangeStart` - Unix Timestamp
-`rangeEnd` - Unix Timestamp
--- or --
-Slot:
-`slot` - Unix Timestamp
+`day` - Unix Timestamp 
+-- or -- 
+Range: 
+`rangeStart` - Unix Timestamp 
+`rangeEnd` - Unix Timestamp 
+-- or -- 
+Slot: 
+`slot` - Unix Timestamp 
 
-Returns an array of bookable slots.
+Returns an array of bookable slots. 
 
 #### Nice to have:
 If the user requests a specific slot but it is not available return nearby time slots by a variable amount (1/2 hours?)
