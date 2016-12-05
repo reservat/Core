@@ -12,6 +12,9 @@ Request config settings from me :D
 ### {id}/availability
 
 #### params
+
+`guests` - Number of seats required
+
 `day` - Unix Timestamp
 -- or --
 Range:
