@@ -15,12 +15,16 @@ Request config settings from me :D
 
 `guests` - Number of seats required
 
-`day` - Unix Timestamp 
+`day` - Unix Timestamp
+
 -- or -- 
+
 Range: 
-`rangeStart` - Unix Timestamp 
+`rangeStart` - Unix Timestamp
 `rangeEnd` - Unix Timestamp 
+
 -- or -- 
+
 Slot: 
 `slot` - Unix Timestamp 
 
