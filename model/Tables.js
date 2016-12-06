@@ -8,6 +8,12 @@ module.exports = class Tables
     toJSON() {
         return this.data;
     }
+    largest() {
+        let seats = this.data.map((table) => {
+            return table.seats
+        });
+        return Math.max(...seats);
+    }
     capacity() {
         return this.data.reduce((a, b) => {
             return a + b.seats;

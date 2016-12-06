@@ -5,6 +5,7 @@ let dateHelper = require('../helpers/date');
 let EsModel = require('./EsModel');
 let OpeningTimes = require('./OpeningTimes');
 let Tables = require('./Tables');
+let Availability = require('./Availability');
 
 module.exports = class Restaurant extends EsModel {
     constructor(data) {
@@ -24,6 +25,12 @@ module.exports = class Restaurant extends EsModel {
     }
     getTables() {
         return new Tables(this.data.tables);
+    }
+    getAvailability() {
+        if(!this._id){
+            throw new Error('Cannot check availability without a restaurant');
+        }
+        return new Availability(this);
     }
     setName(name) {
         this.data.name = name;
