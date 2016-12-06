@@ -20,14 +20,46 @@ module.exports = class Tables
         }, 0);
     }
     forParty(partySize) {
-        if(partySize > this.largest()){
-            // No alternatives, we will HAVE to box pack this request
+        return new Promise(function(resolve, reject){
 
-            /* TODO BoxPack - We need to take the partysize and return an array of 
-            arrays that contain multiple tables that are both .canMerge and can make up the number we have provided */
+            if(partySize > this.largest()){
+                // No alternatives, we will HAVE to box pack this request
 
-        } else {
+                let availableTables = this.data.filter((tbl) => {
+                    return tbl.canMerge;
+                });
+                
+                let result = [];
 
-        }
+                let pack = function(previous, tables) {
+                    tables.forEach((tbl, i) => {
+
+                        let prevTables = Array.from(previous);
+                        prevTables.push(tbl);
+
+                        let capacity = prevTables.reduce((prevCount, table) => {
+                            return prevCount + table.seats;
+                        }, 0);
+
+                        if(capacity == partySize) {
+                            result.push(prevTables);
+                        }
+
+                        pack(prevTables, tables.slice(i + 1));
+
+                    });
+                }
+                
+                pack([], availableTables);
+
+                resolve({
+                    tables : result
+                });
+
+            } else {
+
+            }
+
+        }.bind(this));
     }
 }

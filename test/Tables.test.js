@@ -12,11 +12,28 @@ describe("A Restaurants Table Model", function() {
   let tables = new Tables(dummyData.tables);
 
   it("can return the full capacity of its tables", function(){
-      expect(tables.capacity()).to.equal(8);
+      expect(tables.capacity()).to.equal(28);
   });
 
   it("can return the largest table available", function(){
-      expect(tables.largest()).to.equal(4);
+      expect(tables.largest()).to.equal(6);
+  });
+
+  it("can provide options for guest sizes over the maximum table size (Box packing)", function(done){
+
+      let partyCount = 11;
+
+      tables.forParty(partyCount)
+      .then((tableOptions) => {
+          tableOptions.tables.forEach((tableGroup) => {
+              let tableSeats = tableGroup.reduce((prev, tbl) => {
+                  return prev + tbl.seats;
+              }, 0);
+              expect(tableSeats).to.equal(partyCount);
+          });
+          done();
+      });
+
   });
 
 });

@@ -1,17 +1,40 @@
 {
     "tables" : [{
-        "name" : 1,
+        "name" : "1",
         "seats" : 4,
         "features" : ["quiet"],
+        "canMerge" : true
+    }, {
+        "name" : "2",
+        "seats" : 2,
+        "canMerge" : true
+    }, {
+        "name" : "3",
+        "seats" : 2,
+        "canMerge" : true
+    },
+    {
+        "name" : "12",
+        "seats" : 2,
+        "canMerge" : true
+    },
+    {
+        "name" : "4",
+        "seats" : 5,
+        "canMerge" : true
+    }, {
+        "name" : "5",
+        "seats" : 3,
+        "canMerge" : true
+    },
+    {
+        "name" : "6",
+        "seats" : 4,
         "canMerge" : false
     }, {
-        "name" : 2,
-        "seats" : 2,
-        "canMerge" : true
-    }, {
-        "name" : 3,
-        "seats" : 2,
-        "canMerge" : true
+        "name" : "7",
+        "seats" : 6,
+        "canMerge" : false
     }],
     "openingTimes" : [{
         "day" : "Monday",
