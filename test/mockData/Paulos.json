@@ -22,10 +22,6 @@
         "name" : "4",
         "seats" : 5,
         "canMerge" : true
-    }, {
-        "name" : "5",
-        "seats" : 3,
-        "canMerge" : true
     },
     {
         "name" : "6",
@@ -36,6 +32,7 @@
         "seats" : 6,
         "canMerge" : false
     }],
+    "maxWastage" : 2,
     "openingTimes" : [{
         "day" : "Monday",
         "opens" : "8:30",

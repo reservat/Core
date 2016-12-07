@@ -44,22 +44,31 @@ describe("A Restaurant availability class", function() {
 
     it("Should return an object map of the time slots available in a given day", function(done){
 
-        Paulos.getAvailability().getSlots(moment())
+        Paulos.getAvailability().getSlots(moment().isoWeekday('Tuesday'))
         .then((slots) => {
             done();
         });
 
     });
 
-    /*
     it("Should return tables that are applicable to the party size", function(done){
 
-        Paulos.getAvailability().getApplicableTables(2)
-        .then((tables) => {
+        Promise.all([
+            Paulos.getAvailability().getTables(2),
+            Paulos.getAvailability().getTables(12),
+            Paulos.getAvailability().getTables(3)
+        ]).then((results) => {
+            
+            expect(results[0].getCounts().STRAIGHT).to.equal(3)
+
+            expect(results[1].getCounts().STRAIGHT).to.equal(0)
+            expect(results[1].getCounts().BOX).to.equal(3);
+
+            expect(results[2].getCounts().WITHWASTE).to.equal(3);
+
             done();
-        });
+        })
 
     });
-    */
 
 });

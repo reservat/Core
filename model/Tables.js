@@ -1,5 +1,7 @@
 "use strict"
 
+let tableHelper = require('../helpers/table');
+
 module.exports = class Tables
 {
     constructor(tables) {
@@ -14,6 +16,12 @@ module.exports = class Tables
         });
         return Math.max(...seats);
     }
+    smallest() {
+        let seats = this.data.map((table) => {
+            return table.seats
+        });
+        return Math.min(...seats);
+    }
     capacity() {
         return this.data.reduce((a, b) => {
             return a + b.seats;
@@ -22,43 +30,14 @@ module.exports = class Tables
     forParty(partySize) {
         return new Promise(function(resolve, reject){
 
-            if(partySize > this.largest()){
-                // No alternatives, we will HAVE to box pack this request
+            let promises = [tableHelper.findCombinations(this.data, partySize)];
 
-                let availableTables = this.data.filter((tbl) => {
-                    return tbl.canMerge;
-                });
-                
-                let result = [];
-
-                let pack = function(previous, tables) {
-                    tables.forEach((tbl, i) => {
-
-                        let prevTables = Array.from(previous);
-                        prevTables.push(tbl);
-
-                        let capacity = prevTables.reduce((prevCount, table) => {
-                            return prevCount + table.seats;
-                        }, 0);
-
-                        if(capacity == partySize) {
-                            result.push(prevTables);
-                        }
-
-                        pack(prevTables, tables.slice(i + 1));
-
-                    });
-                }
-                
-                pack([], availableTables);
-
+            Promise.all(promises)
+            .then((res) => {
                 resolve({
-                    tables : result
-                });
-
-            } else {
-
-            }
+                    tables : res[0]
+                })
+            });
 
         }.bind(this));
     }

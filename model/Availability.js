@@ -1,4 +1,5 @@
 let moment = require('moment');
+let TableOptions = require('./TableOptions');
 
 module.exports = class Availability {
     constructor(restaurant){
@@ -41,5 +42,11 @@ module.exports = class Availability {
             resolve();
 
         }.bind(this));
+    }
+    getTables(partySize) {
+        let restaurantTables = this.restaurant.getTables().toJSON();
+        let maxWastage = this.restaurant.getSettings('maxWastage');
+        let options = new TableOptions(restaurantTables, partySize, maxWastage);
+        return options.compute();
     }
 }
