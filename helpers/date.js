@@ -15,5 +15,13 @@ module.exports.momentFromDayAndHours = function(day, hoursAndMinutes) {
 }
 
 module.exports.momentFromElastic = function(day, seconds) {
-    return new moment().day(day).hours(0).minutes(0).second(0).second(seconds);
+    return new moment().day(day).startOf('day').second(seconds);
+}
+
+module.exports.isoDayFuture = function(day){
+    let next = moment().isoWeekday(day).startOf('day');
+    while(next < moment()){
+        next.add(1, 'Week');
+    }
+    return next;
 }

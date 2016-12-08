@@ -6,6 +6,7 @@ let expect = chai.expect;
 let Restaurant = require('../model/Restaurant');
 let dummyData = require('./mockData/Paulos.json');
 let moment = require('moment');
+let dateHelper = require('../helpers/date');
 
 describe("A Restaurant availability class", function() {
 
@@ -58,7 +59,6 @@ describe("A Restaurant availability class", function() {
             Paulos.getAvailability().getTables(12),
             Paulos.getAvailability().getTables(3)
         ]).then((results) => {
-            
             expect(results[0].getCounts().STRAIGHT).to.equal(3)
 
             expect(results[1].getCounts().STRAIGHT).to.equal(0)
@@ -67,8 +67,18 @@ describe("A Restaurant availability class", function() {
             expect(results[2].getCounts().WITHWASTE).to.equal(3);
 
             done();
+        }).catch((err) => {
+            console.dir(err);
         })
 
+    });
+
+    it("Should combine both the time slots and tables into a matrix", function(done){
+
+        Paulos.getAvailability().onDay(6, dateHelper.isoDayFuture("Tuesday"))
+        .then((res) => {
+            done();
+        });
     });
 
 });

@@ -24,4 +24,9 @@ describe("A DateHelper helper class", function() {
       expect(moment.minutes()).to.equal(30);
   });
 
+  it("can provide moment instances for *next* weekday", function(){
+      let futureWeds = DateHelper.isoDayFuture('Wednesday');
+      expect(moment() < futureWeds).to.be.true;
+  });
+
 });

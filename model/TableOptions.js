@@ -18,6 +18,26 @@ module.exports = class TableOptions {
             BOX : this.buckets.BOX.length
         }
     }
+    getDistinct() {
+        let tableNames = [];
+        ['BOX', 'STRAIGHT', 'WITHWASTE'].forEach((bucket) => {
+            this.buckets[bucket].forEach((tables) => {
+                if(Array.isArray(tables)){
+                    tables.forEach((tbl) => {
+                        if(!tableNames.includes(tbl.name)){
+                            tableNames.push(tbl.name);
+                        }
+                    });
+                } else {
+                    if(!tableNames.includes(tables.name)){
+                        tableNames.push(tables.name);
+                    }
+                }
+            });
+        });
+
+        return tableNames;
+    }
     compute() {
         return new Promise(function(resolve, reject){
             Promise.all([
@@ -26,9 +46,7 @@ module.exports = class TableOptions {
                 tableHelper.findWithWastage(this.tables, this.partySize, this.maxWastage)
             ])
             .then(function(result){
-                this.buckets.BOX = result[0];
-                this.buckets.STRAIGHT = result[1];
-                this.buckets.WITHWASTE = result[2];
+                [this.buckets.BOX, this.buckets.STRAIGHT, this.buckets.WITHWASTE] = result;
                 resolve(this);
             }.bind(this));
         }.bind(this));

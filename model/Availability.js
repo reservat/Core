@@ -1,5 +1,6 @@
 let moment = require('moment');
 let TableOptions = require('./TableOptions');
+let dateHelper = require('../helpers/date');
 
 module.exports = class Availability {
     constructor(restaurant){
@@ -7,12 +8,48 @@ module.exports = class Availability {
         this.slots = {};
     }
     onDay(requiredSeats, day){
-        let checks = [];
+        return new Promise(function(resolve, reject){
 
-        checks.push(this.isOpen(day.format('dddd')));
-        checks.push(this.getSlots(day))
+            let checks = [];
+            checks.push(this.isOpen(day.format('dddd')));
+            checks.push(this.getSlots(day));
+            checks.push(this.getTables(requiredSeats));
 
-        return Promise.all(checks);
+            Promise.all(checks)
+            .then(function(result){
+
+                let openStatus, timeSlots, tables;
+                [openStatus, timeSlots, tables] = result;
+                tables = tables.getDistinct();
+                
+                return this.createMatrix(timeSlots, tables);
+            }.bind(this))
+            .then(this.applyBookings)
+            .then((completeMatrix) => {
+                resolve(completeMatrix);
+            })
+            .catch(function(err){
+                reject(err);
+            });
+
+        }.bind(this));
+    }
+    createMatrix(timeSlots, tables) {
+        return new Promise(function(resolve, reject){
+            let tableObj = {};
+            tables.forEach((tblName) => {
+                tableObj[tblName] = false;
+            });
+            for(let ts in timeSlots){
+                timeSlots[ts] = tableObj;
+            };
+            resolve(timeSlots);
+        });
+    }
+    applyBookings(timeSlots) {
+        return new Promise(function(resolve, reject){
+            resolve(timeSlots);
+        });
     }
     isOpen(day) {
         return new Promise(function(resolve, reject){
@@ -29,17 +66,18 @@ module.exports = class Availability {
 
         }.bind(this));
     }
-    getSlots(day) {
+    getSlots(day, pretty) {
         return new Promise(function(resolve, reject){
-            let openingTimes = this.restaurant.getOpeningTimes().on(day.format('dddd'));
+            let openingTimes = this.restaurant.getOpeningTimes().on(day.startOf('day').format('dddd'));
             let {opens, closes} = openingTimes;
             let iterator = opens;
             let i = 0
-            while(iterator.format('H:mm') != closes.format('H:mm') || iterator == 100){
-                this.slots[iterator.format('H:mm')] = i++;
+            while(iterator.format('H:mm') != closes.format('H:mm') || i == 100){
+                let key = pretty ? iterator.format('H:mm') : dateHelper.secondsElapsed(iterator);
+                this.slots[key] = i++;
                 iterator.add(this.restaurant.data.slotSpace, 's');
             }
-            resolve();
+            resolve(this.slots);
 
         }.bind(this));
     }
