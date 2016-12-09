@@ -18,6 +18,10 @@ module.exports.momentFromElastic = function(day, seconds) {
     return new moment().day(day).startOf('day').second(seconds);
 }
 
+module.exports.momentFromSeconds = function(seconds) {
+    return new moment().startOf('day').second(seconds);
+}
+
 module.exports.isoDayFuture = function(day){
     let next = moment().isoWeekday(day).startOf('day');
     while(next < moment()){

@@ -18,6 +18,27 @@ module.exports = class TableOptions {
             BOX : this.buckets.BOX.length
         }
     }
+    verify(tableOccupancy) {
+        // This is a promise as we want to resolve FAST if we have availability
+        return new Promise(function(resolve, reject){
+            ['BOX', 'STRAIGHT', 'WITHWASTE'].forEach((bucket) => {
+                this.buckets[bucket].forEach((tables) => {
+                    if(!Array.isArray(tables)){
+                        // for clarity - this is a single table
+                        let table = tables;
+                        // if the table has a false value it means it is available
+                        if(!tableOccupancy[table.name]) resolve(true);
+                    } else {
+                        let allAvailable = tables.some((tbl) => {
+                            return !tableOccupancy[tbl.name]
+                        });
+                        if(allAvailable) resolve(true);
+                    }
+                });
+            });
+            resolve(false);
+        }.bind(this));
+    }
     getDistinct() {
         let tableNames = [];
         ['BOX', 'STRAIGHT', 'WITHWASTE'].forEach((bucket) => {

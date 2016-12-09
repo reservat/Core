@@ -1,55 +1,40 @@
 let moment = require('moment');
 let TableOptions = require('./TableOptions');
+let AvailabilityMatrix = require('./AvailabilityMatrix');
 let dateHelper = require('../helpers/date');
 
 module.exports = class Availability {
     constructor(restaurant){
         this.restaurant = restaurant;
         this.slots = {};
+        this.matrix = {};
     }
     onDay(requiredSeats, day){
-        return new Promise(function(resolve, reject){
 
-            let checks = [];
-            checks.push(this.isOpen(day.format('dddd')));
-            checks.push(this.getSlots(day));
-            checks.push(this.getTables(requiredSeats));
+        let checks = [];
+        checks.push(this.isOpen(day.format('dddd')));
+        checks.push(this.getSlots(day));
+        checks.push(this.getTables(requiredSeats));
 
-            Promise.all(checks)
-            .then(function(result){
+        return Promise.all(checks)
+        .then(function(result){
 
-                let openStatus, timeSlots, tables;
-                [openStatus, timeSlots, tables] = result;
-                tables = tables.getDistinct();
-                
-                return this.createMatrix(timeSlots, tables);
-            }.bind(this))
-            .then(this.applyBookings)
-            .then((completeMatrix) => {
-                resolve(completeMatrix);
-            })
-            .catch(function(err){
-                reject(err);
-            });
+            let openStatus, timeSlots, tables;
+            [openStatus, timeSlots, tables] = result;
+            
+            return this.createMatrix(day, timeSlots, tables);
+        }.bind(this))
+        .then(this.applyBookings);
 
-        }.bind(this));
     }
-    createMatrix(timeSlots, tables) {
+    createMatrix(day, timeSlots, tables) {
         return new Promise(function(resolve, reject){
-            let tableObj = {};
-            tables.forEach((tblName) => {
-                tableObj[tblName] = false;
-            });
-            for(let ts in timeSlots){
-                timeSlots[ts] = tableObj;
-            };
-            resolve(timeSlots);
+            let matrix = new AvailabilityMatrix(day, timeSlots, tables);
+            resolve(matrix);
         });
     }
-    applyBookings(timeSlots) {
-        return new Promise(function(resolve, reject){
-            resolve(timeSlots);
-        });
+    applyBookings(matrix) {
+        return matrix.applyBookings();
     }
     isOpen(day) {
         return new Promise(function(resolve, reject){

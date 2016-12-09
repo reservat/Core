@@ -76,7 +76,11 @@ describe("A Restaurant availability class", function() {
     it("Should combine both the time slots and tables into a matrix", function(done){
 
         Paulos.getAvailability().onDay(6, dateHelper.isoDayFuture("Tuesday"))
-        .then((res) => {
+        .then((availabilityMatrix) => {
+            return availabilityMatrix.availableSlots();
+        })
+        .then((slots) => {
+            console.log(slots);
             done();
         });
     });
