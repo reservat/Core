@@ -6,6 +6,20 @@ module.exports = class EsModel {
     getId() {
         return this._id;
     }
+    findById(id) {
+        return new Promise(function(resolve, reject){
+            this.ES.client.get({
+                index: this.index,
+                type: this.type,
+                id: id
+            }, function(err, res){
+                if(err) reject(err);
+                this._id = res._id;
+                this.data = res._source;
+                resolve(this);
+            }.bind(this))
+        }.bind(this));
+    }
     _update() {
         return new Promise(function(resolve, reject){
             this.ES.client.update({

@@ -35,6 +35,15 @@ describe("An ElasticSearch Model class", function() {
         expect(Paulos.getId()).to.not.be.undefined;
     });
 
+    it("should be able to be queried by ID", function(done){
+        let found = new Restaurant(config);
+        found.findById(Paulos.getId())
+        .then(function(restaurant){
+            expect(found.getId()).to.equal(Paulos.getId());
+            done();
+        })
+    });
+
     it("should update an existing record on second commit", function(done){
         let restaurantName = `Paulo's Steakhouse`;
         Paulos.setName(restaurantName);
