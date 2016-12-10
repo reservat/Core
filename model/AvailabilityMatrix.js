@@ -11,7 +11,7 @@ module.exports = class AvailabilityMatrix {
             tableObj[tblName] = false;
         });
         for(let ts in timeSlots){
-            timeSlots[ts] = tableObj;
+            timeSlots[ts] = Object.assign({}, tableObj);
         };
         this.matrix = timeSlots;
     }

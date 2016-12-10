@@ -11,7 +11,7 @@ module.exports.secondsElapsed = function(timeOfDay) {
 
 module.exports.momentFromDayAndHours = function(day, hoursAndMinutes) {
     const [hours, mins] = hoursAndMinutes.split(':');
-    return new moment().day(day).hour(hours).minute(mins);
+    return new moment().day(day).startOf('day').hour(hours).minute(mins);
 }
 
 module.exports.momentFromElastic = function(day, seconds) {
