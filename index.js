@@ -10,5 +10,5 @@ class ReservatCore {
 
 
 module.exports = (config) => {
-    let reservat = new ReservatCore(config);
+    return new ReservatCore(config);
 }
