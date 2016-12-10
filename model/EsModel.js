@@ -1,7 +1,9 @@
 module.exports = class EsModel {
     constructor(config, data) {
         this.ES = require('../es/ESClient')(config);
-        this.config = config;
+        this.config = {
+            debug : config.debug
+        };
     }
     getId() {
         return this._id;
