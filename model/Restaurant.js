@@ -13,6 +13,7 @@ module.exports = class Restaurant extends EsModel {
         super(config, data ? data : {});
         this.index = 'restaurants';
         this.type = 'restaurant';
+        this.config = config;
         this.data = Object.assign({}, {
             openingTimes : [],
             slotSpace : 15 * 60,
@@ -36,6 +37,12 @@ module.exports = class Restaurant extends EsModel {
     }
     getTables() {
         return new Tables(this.data.tables);
+    }
+    getReservation() {
+        if(!this._id){
+            throw new Error('Cannot make a reservation without a restaurant');
+        }
+        return new Reservation(this.config, this);
     }
     getAvailability() {
         if(!this._id){

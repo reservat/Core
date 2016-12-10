@@ -74,8 +74,7 @@ describe("A Restaurant availability class", function() {
 
     });
 
-    it("Should combine both the time slots and tables into a matrix", function(done){
-
+    it("Should combine both the time slots and tables into a matrix for the provided day", function(done){
         Paulos.getAvailability().onDay(6, dateHelper.isoDayFuture("Tuesday"))
         .then((availabilityMatrix) => {
             return availabilityMatrix.availableSlots();
@@ -84,6 +83,17 @@ describe("A Restaurant availability class", function() {
             expect(slots['9:45'].available).to.be.true;
             done();
         });
+    });
+
+    it("Should combine both the time slots and tables into a matrix for the provided time", function(done){
+        Paulos.getAvailability().atTime(6, 72000, dateHelper.isoDayFuture("Tuesday"))
+        .then((availabilityMatrix) => {
+            return availabilityMatrix.availableSlots();
+        })
+        .then((slots) => {
+            console.log(slots);
+            done();
+        })
     });
 
 });

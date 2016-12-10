@@ -9,6 +9,20 @@ module.exports = class Availability {
         this.slots = {};
         this.matrix = {};
     }
+    atTime(requiredSeats, seconds, day){
+        let checks = [];
+        checks.push(this.getSlot(day, seconds));
+        checks.push(this.getTables(requiredSeats));
+
+        return Promise.all(checks)
+        .then(function(result){
+            let slots, tables;
+            [slots, tables] = result;
+            return this.createMatrix(day, slots, tables);
+        }.bind(this))
+        .then(this.applyBookings);
+
+    }
     onDay(requiredSeats, day){
 
         let checks = [];
@@ -49,6 +63,22 @@ module.exports = class Availability {
                 });
             }
 
+        }.bind(this));
+    }
+    getSlot(day, seconds, pretty) {
+        return new Promise(function(resolve, reject){
+            let openingTimes = this.restaurant.getOpeningTimes().on(day.startOf('day').format('dddd'));
+            let {opens, closes} = openingTimes;
+            if(seconds >= dateHelper.secondsElapsed(opens) && seconds <= dateHelper.secondsElapsed(closes)){
+                let slots = {};
+                slots[seconds] = 0;
+                resolve(slots);
+            } else {
+                reject({
+                    code: 'AV0002',
+                    msg: 'The restaurant cannot take a booking at that time'
+                });
+            }
         }.bind(this));
     }
     getSlots(day, pretty) {
