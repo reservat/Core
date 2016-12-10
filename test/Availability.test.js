@@ -91,7 +91,7 @@ describe("A Restaurant availability class", function() {
             return availabilityMatrix.availableSlots();
         })
         .then((slots) => {
-            console.log(slots);
+            expect(slots['20:00'].available).to.be.true;
             done();
         })
     });
