@@ -1,13 +1,14 @@
-let ES = require('../es/ESClient');
-let config = require('../config/dev.json');
-
 module.exports = class EsModel {
+    constructor(config, data) {
+        this.ES = require('../es/ESClient')(config);
+        this.config = config;
+    }
     getId() {
         return this._id;
     }
     _update() {
         return new Promise(function(resolve, reject){
-            ES.client.update({
+            this.ES.client.update({
                 index: this.index,
                 type: this.type,
                 id: this._id,
@@ -22,7 +23,7 @@ module.exports = class EsModel {
     }
     _create() {
         return new Promise(function(resolve, reject){
-            ES.client.index({
+            this.ES.client.index({
                 index: this.index,
                 type: this.type,
                 body : this.data
@@ -35,7 +36,7 @@ module.exports = class EsModel {
     }
     delete() {
         return new Promise(function(resolve, reject){
-            ES.client.delete({
+            this.ES.client.delete({
                 index: this.index,
                 type: this.type,
                 id: this._id
@@ -51,7 +52,7 @@ module.exports = class EsModel {
 
         return new Promise(function(resolve, reject){
 
-            if(!ES.client) {
+            if(!this.ES.client) {
                 throw new Error('ESClient is not available');
             }
             if(!this.index || !this.type){
@@ -60,8 +61,8 @@ module.exports = class EsModel {
 
             let promises = [];
 
-            if(config.debug){
-                promises.push(ES.logInfo(`${this.index}-commit`, this.data));
+            if(this.config.debug){
+                promises.push(this.ES.logInfo(`${this.index}-commit`, this.data));
             }
 
             if(!this._id){

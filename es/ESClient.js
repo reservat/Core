@@ -1,8 +1,7 @@
-let config = require('../config/dev.json');
 let elasticsearch = require('elasticsearch');
 
 class ESClient {
-    constructor() {
+    constructor(config) {
         let esConfig = config.es;
         this.client = new elasticsearch.Client({
             host: `http://${esConfig.user}:${esConfig.password}@${esConfig.host}`
@@ -30,6 +29,9 @@ class ESClient {
     }
 }
 
-let instance = new ESClient();
 
-module.exports = instance;
+
+module.exports = function(config) {
+    let instance = new ESClient(config);
+    return instance;
+};

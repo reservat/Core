@@ -3,12 +3,13 @@
 var Restaurant = require('../model/Restaurant');
 var moment = require('moment');
 var chai = require('chai');
+var config = require('../config/dev.json');
 
 var expect = chai.expect;
 
 describe("A Restaurant Model", function() {
 
-  let fatJohnnys = new Restaurant();
+  let fatJohnnys = new Restaurant(config);
 
   it("can have opening times", function() {
       let openingTimes = [

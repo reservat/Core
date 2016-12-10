@@ -7,10 +7,11 @@ let Restaurant = require('../model/Restaurant');
 let dummyData = require('./mockData/Paulos.json');
 let moment = require('moment');
 let dateHelper = require('../helpers/date');
+let config = require('../config/dev.json');
 
 describe("A Restaurant availability class", function() {
 
-    let Paulos = new Restaurant();
+    let Paulos = new Restaurant(config);
 
     it("Should be available on an instantiated restaurant class", function(done){
 

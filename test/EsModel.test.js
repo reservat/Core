@@ -4,11 +4,13 @@ let chai = require('chai');
 let expect = chai.expect;
 
 let Restaurant = require('../model/Restaurant');
+let config = require('../config/dev.json');
+
 let dummyData = require('./mockData/Paulos.json');
 
 describe("An ElasticSearch Model class", function() {
     
-    let Paulos = new Restaurant();
+    let Paulos = new Restaurant(config);
 
     it("exposes a commit function on an extended class", function(done) {
 

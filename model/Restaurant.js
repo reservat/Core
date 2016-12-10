@@ -8,9 +8,9 @@ let Tables = require('./Tables');
 let Availability = require('./Availability');
 
 module.exports = class Restaurant extends EsModel {
-    constructor(data) {
+    constructor(config, data) {
         // Defaults
-        super(data);
+        super(config, data ? data : {});
         this.index = 'restaurants';
         this.type = 'restaurant';
         this.data = Object.assign({}, {
