@@ -33,8 +33,9 @@ module.exports = class TableOptions {
                             name : table.name
                         });
                     } else {
-                        let allAvailable = tables.some((tbl) => {
-                            return !tableOccupancy[tbl.name]
+                        let allAvailable = true;
+                        tables.forEach((tbl) => {
+                            if (tableOccupancy[tbl.name]) allAvailable = false;
                         });
                         if(allAvailable) resolve({
                             available : true,
@@ -46,7 +47,7 @@ module.exports = class TableOptions {
                     }
                 });
             });
-            resolve(false);
+            resolve({available: false});
         }.bind(this));
     }
     getDistinct() {

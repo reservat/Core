@@ -20,7 +20,15 @@ module.exports = class AvailabilityMatrix {
             Reservations.onDay(this.day)
             .then(function(reservations){
                 reservations.forEach((res) => {
-                    this.matrix[res._source.slot] = res._source.reservationId;
+                    if(this.matrix[res._source.slot]){
+                        if(Array.isArray(res._source.table)){
+                            res._source.table.forEach(function(tbl){
+                                this.matrix[res._source.slot][tbl] = res._source.reservationId
+                            }.bind(this));
+                        } else {
+                            this.matrix[res._source.slot][res._source.table] = res._source.reservationId;
+                        }
+                    }
                 });
                 resolve(this);
             }.bind(this));
