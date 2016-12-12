@@ -1,0 +1,26 @@
+{
+    "properties": {
+        "allocationType": {
+            "type": "string"
+        },
+        "customer": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "tel": {
+                    "type": "long"
+                }
+            }
+        },
+        "day": {
+            "type": "date"
+        },
+        "slot": {
+            "type": "long"
+        },
+        "table": {
+            "type": "string"
+        }
+    }
+}

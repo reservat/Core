@@ -24,8 +24,8 @@ module.exports = class Reservation extends EsModel {
     }
     make(day, slot, partySize, customer) {
         return new Promise(function(resolve, reject){
-            this.isAvailable(day, slot, partySize).then(function(status){
-                if(!status){
+            this.isAvailable(day, slot, partySize).then(function(table){
+                if(!table.available){
                     reject({
                         code : 'R0001',
                         msg : 'This time slot is not available'
@@ -34,9 +34,13 @@ module.exports = class Reservation extends EsModel {
                     this.data = {
                         day : day.format('x'),
                         slot : slot,
-                        customer : customer
+                        customer : customer,
+                        table : table.name,
+                        allocationType : table.type 
                     }
-                    resolve(this);
+                    this.commit().then((savedRecord) => {
+                        resolve(this);
+                    })
                 }
             }.bind(this));
         }.bind(this));

@@ -13,7 +13,7 @@ describe("A Reservation Model", function() {
     let restaurant;
 
     before(function(done){
-        new Restaurant(config).findById('AVjO7Va4DK4-VA88Yzam').then((res) => {
+        new Restaurant(config).findById('AVjy-WUJDK4-VA88dvDq').then((res) => {
             restaurant = res;
             done();
         });
@@ -21,11 +21,10 @@ describe("A Reservation Model", function() {
 
     it("Should allow me to make a booking", function(done){
         let reservations = restaurant.Reservation();
-        reservations.make(DateHelper.isoDayFuture('Tuesday'), 34212, 4, {
+        reservations.make(DateHelper.isoDayFuture('Tuesday'), 35100, 4, {
             name : 'Paul Westerdale',
             tel : 07545458438 
         }).then((res) => {
-            console.log(res);
             done();
         });
     });

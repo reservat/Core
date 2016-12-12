@@ -1,9 +1,15 @@
-let ES = require('../es/ESClient');
+let config = require('../config/dev.json');
+let ES = require('../es/ESClient')(config);
 
 let indices = [{
     name : 'restaurants',
     type : 'restaurant',
     mapping : 'restaurant.json'
+},
+{
+    name : 'reservations',
+    type : 'reservation',
+    mapping : 'reservation.json'
 }];
 
 let indexPromiseFn = function(index){
@@ -17,7 +23,7 @@ let indexPromiseFn = function(index){
                 mappings : mappings
             }
         }, function(err, res){
-            if(err) throw new Error(err);
+            if(err) reject(err);
             resolve(res);
         })
     });
@@ -33,5 +39,6 @@ Promise.all(promises)
 .then((response) => {
     console.log(`${response.length} indices created`);    
 },(errors) => {
+    console.dir(errors);
     console.log(`${errors.length} errors occured`);
 });
