@@ -2,7 +2,8 @@
   "dependencies": {
     "chai": "^3.5.0",
     "elasticsearch": "^12.1.0",
-    "moment": "^2.17.0"
+    "moment": "^2.17.0",
+    "shortid": "^2.2.6"
   },
   "name": "ReservatCore",
   "version": "0.0.1",

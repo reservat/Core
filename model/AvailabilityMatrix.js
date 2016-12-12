@@ -15,10 +15,15 @@ module.exports = class AvailabilityMatrix {
         };
         this.matrix = timeSlots;
     }
-    applyBookings() {
+    applyBookings(Reservations) {
         return new Promise(function(resolve, reject){
-            //TODO: Booking logic!
-            resolve(this);
+            Reservations.onDay(this.day)
+            .then(function(reservations){
+                reservations.forEach((res) => {
+                    this.matrix[res._source.slot] = res._source.reservationId;
+                });
+                resolve(this);
+            }.bind(this));
         }.bind(this));
     }
     availableSlots() {

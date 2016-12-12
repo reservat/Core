@@ -1,6 +1,8 @@
 "use strict"
 
 let EsModel = require('./EsModel');
+let moment = require('moment');
+let shortId = require('shortid');
 
 module.exports = class Reservation extends EsModel {
     constructor(config, restaurant, data) {
@@ -35,8 +37,13 @@ module.exports = class Reservation extends EsModel {
                         day : day.format('x'),
                         slot : slot,
                         customer : customer,
-                        table : table.name,
-                        allocationType : table.type 
+                        table : table.name ? table.name : table.names,
+                        reservationId : shortId.generate(),
+                        restaurantId : this.restaurant.getId(),
+                        accepted : table.type == 'STRAIGHT' ? true : false,
+                        allocationType : table.type,
+                        created : moment().format('x'),
+                        state : table.type == 'STRAIGHT' ? 'CONFIRMED' : 'PENDING'
                     }
                     this.commit().then((savedRecord) => {
                         resolve(this);

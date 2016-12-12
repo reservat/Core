@@ -3,13 +3,40 @@
         "allocationType": {
             "type": "string"
         },
+        "restaurantId" : {
+            "type" : "string"
+        },
+        "reservationId" : {
+            "type": "string"
+        },
+        "state" : {
+            "type" : "string"
+        },
+        "created" : {
+            "type" : "date"
+        },
+        "accepted" : {
+            "type" : "boolean"
+        },
+        "acceptedAt" : {
+            "type" : "date"
+        },
+        "acceptedBy" : {
+            "type" : "string"
+        },
         "customer": {
             "properties": {
+                "customerId" : {
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
-                "tel": {
-                    "type": "long"
+                "telephone": {
+                    "type": "string"
+                },
+                "email" : {
+                    "type" : "string"
                 }
             }
         },

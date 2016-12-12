@@ -7,6 +7,7 @@ let OpeningTimes = require('./OpeningTimes');
 let Tables = require('./Tables');
 let Availability = require('./Availability');
 let Reservation = require('./Reservation');
+let Reservations = require('./Reservations');
 
 module.exports = class Restaurant extends EsModel {
     constructor(config, data) {
@@ -44,6 +45,12 @@ module.exports = class Restaurant extends EsModel {
             throw new Error('Cannot make a reservation without a restaurant');
         }
         return new Reservation(this.config, this);
+    }
+    Reservations() {
+        if(!this._id){
+            throw new Error('Cannot make a reservation without a restaurant');
+        }
+        return new Reservations(this.config, this);
     }
     getAvailability() {
         if(!this._id){

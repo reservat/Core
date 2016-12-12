@@ -20,7 +20,7 @@ module.exports = class Availability {
             [slots, tables] = result;
             return this.createMatrix(day, slots, tables);
         }.bind(this))
-        .then(this.applyBookings);
+        .then(this.applyBookings.bind(this));
 
     }
     onDay(requiredSeats, day){
@@ -38,7 +38,7 @@ module.exports = class Availability {
             
             return this.createMatrix(day, timeSlots, tables);
         }.bind(this))
-        .then(this.applyBookings);
+        .then(this.applyBookings.bind(this));
 
     }
     createMatrix(day, timeSlots, tables) {
@@ -48,7 +48,8 @@ module.exports = class Availability {
         });
     }
     applyBookings(matrix) {
-        return matrix.applyBookings();
+        let reservations = this.restaurant.Reservations();
+        return matrix.applyBookings(reservations);
     }
     isOpen(day) {
         return new Promise(function(resolve, reject){

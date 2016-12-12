@@ -23,7 +23,7 @@ describe("A Reservation Model", function() {
         let reservations = restaurant.Reservation();
         reservations.make(DateHelper.isoDayFuture('Tuesday'), 35100, 4, {
             name : 'Paul Westerdale',
-            tel : 07545458438 
+            telephone : '07545458438'
         }).then((res) => {
             done();
         });
