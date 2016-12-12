@@ -30,7 +30,7 @@ module.exports = class AvailabilityMatrix {
                 let friendlyTs = dateHelper.momentFromSeconds(ts).format('H:mm');
                 let promise = new Promise(function(resolve, reject){
                     this.tableOptions.verify(this.matrix[ts]).then((state) => {
-                        available[friendlyTs] = { available : state, bookingToken : ts };
+                        available[friendlyTs] = { state : state, bookingToken : ts };
                         resolve();
                     });
                 }.bind(this));

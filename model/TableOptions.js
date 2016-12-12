@@ -21,18 +21,28 @@ module.exports = class TableOptions {
     verify(tableOccupancy) {
         // This is a promise as we want to resolve FAST if we have availability
         return new Promise(function(resolve, reject){
-            ['BOX', 'STRAIGHT', 'WITHWASTE'].forEach((bucket) => {
+            ['STRAIGHT', 'WITHWASTE', 'BOX'].forEach((bucket) => {
                 this.buckets[bucket].forEach((tables) => {
                     if(!Array.isArray(tables)){
                         // for clarity - this is a single table
                         let table = tables;
                         // if the table has a false value it means it is available
-                        if(!tableOccupancy[table.name]) resolve(true);
+                        if(!tableOccupancy[table.name]) resolve({
+                            available : true,
+                            type : bucket,
+                            name : table.name
+                        });
                     } else {
                         let allAvailable = tables.some((tbl) => {
                             return !tableOccupancy[tbl.name]
                         });
-                        if(allAvailable) resolve(true);
+                        if(allAvailable) resolve({
+                            available : true,
+                            type : bucket,
+                            names : tables.map((tbl) => {
+                                return tbl.name
+                            })
+                        });
                     }
                 });
             });

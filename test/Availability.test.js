@@ -80,7 +80,7 @@ describe("A Restaurant availability class", function() {
             return availabilityMatrix.availableSlots();
         })
         .then((slots) => {
-            expect(slots['9:45'].available).to.be.true;
+            expect(slots['9:45'].state.available).to.be.true;
             done();
         });
     });
@@ -91,7 +91,7 @@ describe("A Restaurant availability class", function() {
             return availabilityMatrix.availableSlots();
         })
         .then((slots) => {
-            expect(slots['20:00'].available).to.be.true;
+            expect(slots['20:00'].state.available).to.be.true;
             done();
         })
     });

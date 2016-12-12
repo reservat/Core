@@ -6,6 +6,7 @@ let EsModel = require('./EsModel');
 let OpeningTimes = require('./OpeningTimes');
 let Tables = require('./Tables');
 let Availability = require('./Availability');
+let Reservation = require('./Reservation');
 
 module.exports = class Restaurant extends EsModel {
     constructor(config, data) {
@@ -38,7 +39,7 @@ module.exports = class Restaurant extends EsModel {
     getTables() {
         return new Tables(this.data.tables);
     }
-    getReservation() {
+    Reservation() {
         if(!this._id){
             throw new Error('Cannot make a reservation without a restaurant');
         }
