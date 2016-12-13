@@ -3,8 +3,9 @@
 let dateHelper = require('../helpers/date');
 
 module.exports = class AvailabilityMatrix {
-    constructor(day, timeSlots, tableOptions){
+    constructor(day, timeSlots, tableOptions, resSettings){
         this.day = day;
+        this.restaurantSettings = resSettings;
         this.tableOptions = tableOptions;
         let tableObj = {};
         tableOptions.getDistinct().forEach((tblName) => {
@@ -15,21 +16,33 @@ module.exports = class AvailabilityMatrix {
         };
         this.matrix = timeSlots;
     }
+    blockout(tbl, start, bookingId) {
+        let end = start + this.restaurantSettings.bookingAllocatedTimes;
+        let pnt = start;
+        console.log(pnt)
+        while(pnt != end){
+            if(this.matrix[pnt]){
+                this.matrix[pnt][tbl] = bookingId;
+            }
+            pnt = pnt + this.restaurantSettings.slotSpace;
+        }
+    }
     applyBookings(Reservations) {
+
         return new Promise(function(resolve, reject){
             Reservations.onDay(this.day)
             .then(function(reservations){
-                reservations.forEach((res) => {
+                reservations.forEach(function(res){
                     if(this.matrix[res._source.slot]){
                         if(Array.isArray(res._source.table)){
                             res._source.table.forEach(function(tbl){
-                                this.matrix[res._source.slot][tbl] = res._source.reservationId
+                                this.blockout(tbl, res._source.slot, res._source.reservationId);
                             }.bind(this));
                         } else {
-                            this.matrix[res._source.slot][res._source.table] = res._source.reservationId;
+                            this.blockout(res._source.table, res._source.slot, res._source.reservationId);
                         }
                     }
-                });
+                }.bind(this));
                 resolve(this);
             }.bind(this));
         }.bind(this));

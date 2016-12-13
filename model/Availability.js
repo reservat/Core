@@ -43,9 +43,9 @@ module.exports = class Availability {
     }
     createMatrix(day, timeSlots, tables) {
         return new Promise(function(resolve, reject){
-            let matrix = new AvailabilityMatrix(day, timeSlots, tables);
+            let matrix = new AvailabilityMatrix(day, timeSlots, tables, this.restaurant.getSettings());
             resolve(matrix);
-        });
+        }.bind(this));
     }
     applyBookings(matrix) {
         let reservations = this.restaurant.Reservations();

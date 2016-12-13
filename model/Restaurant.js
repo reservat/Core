@@ -26,7 +26,9 @@ module.exports = class Restaurant extends EsModel {
     }
     getSettings(setting) {
         let settings = {
-            'maxWastage' : this.data.maxWastage
+            'maxWastage' : this.data.maxWastage,
+            'bookingAllocatedTimes' : this.data.bookingAllocatedTimes,
+            'slotSpace' : this.data.slotSpace
         };
         if(setting && settings[setting]){
             return settings[setting];
