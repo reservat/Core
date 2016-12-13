@@ -19,7 +19,6 @@ module.exports = class AvailabilityMatrix {
     blockout(tbl, start, bookingId) {
         let end = start + this.restaurantSettings.bookingAllocatedTimes;
         let pnt = start;
-        console.log(pnt)
         while(pnt != end){
             if(this.matrix[pnt]){
                 this.matrix[pnt][tbl] = bookingId;
