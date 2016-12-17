@@ -24,6 +24,31 @@ module.exports = class Reservation extends EsModel {
             });
         }.bind(this));
     }
+    getReservationId() {
+        return this.data.reservationId;
+    }
+    findByReservationId(shortId) {
+        return new Promise(function(resolve, reject){
+            this.ES.client.search({
+                index : this.index,
+                body : {
+                    "query" : {
+                        "match" : {
+                            "reservationId" : shortId
+                        }
+                    }
+                }
+            }, function(err, res){
+                if(err) reject(err);
+                if(res.hits){
+                    this.data = res.hits.hits[0]._source;
+                    resolve(this);
+                } else {
+                    resolve({});
+                }
+            }.bind(this));
+        }.bind(this));
+    }
     make(day, slot, partySize, customer) {
         return new Promise(function(resolve, reject){
             this.isAvailable(day, slot, partySize).then(function(table){

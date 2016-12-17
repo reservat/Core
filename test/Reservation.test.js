@@ -11,6 +11,7 @@ var expect = chai.expect;
 describe("A Reservation Model", function() {
 
     let restaurant;
+    let reservation;
 
     before(function(done){
         new Restaurant(config).findById('AVjy-WUJDK4-VA88dvDq').then((res) => {
@@ -25,8 +26,28 @@ describe("A Reservation Model", function() {
             name : 'Paul Westerdale',
             telephone : '07545458438'
         }).then((res) => {
+            reservation = res;
+            expect(reservation.getId()).to.not.be.undefined;
             done();
         });
     });
+
+    it("Should be able to retrieve by a short Id", function(done){
+        let resTest = restaurant.Reservation();
+        resTest.findByReservationId("rymZfR67g")
+        .then((resFound) => {
+            console.log(resFound);
+            done();
+        });
+    });
+    
+    it("should allow me to delete a booking", function(done){
+        reservation.delete()
+        .then((res) => {
+            expect(reservation.getId()).to.be.undefined;
+            done();
+        });
+    });
+    
 
 });
