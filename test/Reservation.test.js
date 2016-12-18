@@ -36,7 +36,7 @@ describe("A Reservation Model", function() {
         let resTest = restaurant.Reservation();
         resTest.findByReservationId("rymZfR67g")
         .then((resFound) => {
-            console.log(resFound);
+            expect(resFound.getId()).to.equal('AVj5wDt_DK4-VA88e4UY');
             done();
         });
     });

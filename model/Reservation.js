@@ -42,6 +42,7 @@ module.exports = class Reservation extends EsModel {
                 if(err) reject(err);
                 if(res.hits){
                     this.data = res.hits.hits[0]._source;
+                    this._id = res.hits.hits[0]._id;
                     resolve(this);
                 } else {
                     resolve({});
