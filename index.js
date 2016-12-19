@@ -1,6 +1,5 @@
 let Restaurant = require('./model/Restaurant');
-let UserMapper = require('./model/user/UserMapper');
-let UserRepository = require('./model/user/UserRepository');
+let UserMapper = require('./core/User/Mapper');
 
 class ReservatCore {
     constructor(config) {
@@ -11,7 +10,7 @@ class ReservatCore {
             return new UserMapper(config);
         }
         this.UserRepository = function() {
-            return new UserRepository();
+            //return new UserRepository(config);
         }
     }
 }

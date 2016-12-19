@@ -2,15 +2,21 @@ let config = require('../config/dev.json');
 let ES = require('../es/ESClient')(config);
 
 let indices = [{
-    name : 'restaurants',
-    type : 'restaurant',
-    mapping : 'restaurant.json'
-},
-{
-    name : 'reservations',
-    type : 'reservation',
-    mapping : 'reservation.json'
-}];
+        name : 'restaurants',
+        type : 'restaurant',
+        mapping : 'restaurant.json'
+    },
+    {
+        name : 'reservations',
+        type : 'reservation',
+        mapping : 'reservation.json'
+    },
+    {
+        name : 'users',
+        type : 'user',
+        mapping : 'user.json'
+    }
+];
 
 let indexPromiseFn = function(index){
     return new Promise(function(resolve, reject){
@@ -23,7 +29,9 @@ let indexPromiseFn = function(index){
                 mappings : mappings
             }
         }, function(err, res){
-            if(err) reject(err);
+            // TODO - try to update mapping
+            if(err) resolve(false);
+            console.log('added mapping ' + index.name);
             resolve(res);
         })
     });
@@ -37,8 +45,5 @@ indices.forEach((index) => {
 
 Promise.all(promises)
 .then((response) => {
-    console.log(`${response.length} indices created`);    
-},(errors) => {
-    console.dir(errors);
-    console.log(`${errors.length} errors occured`);
+    console.log('DONE');
 });
