@@ -60,7 +60,8 @@ describe("Handling users", function() {
             done();
         });
     });
-     
+    */
+    
     it("can be hard deleted from our storage provider", function(done){
         userMapper.delete(user)
         .then((result) => {
@@ -68,6 +69,6 @@ describe("Handling users", function() {
             done();
         });
     });
-    */
+    
 
 });
