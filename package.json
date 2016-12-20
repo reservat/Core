@@ -5,7 +5,8 @@
     "elasticsearch": "^12.1.0",
     "moment": "^2.17.0",
     "shortid": "^2.2.6",
-    "mocha" : "^3.2.0"
+    "mocha" : "^3.2.0",
+    "mocha-junit-reporter" : "1.12.1"
   },
   "name": "ReservatCore",
   "version": "0.0.1",
