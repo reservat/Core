@@ -1,0 +1,10 @@
+nodejs:
+  version: '5.10.1'
+hooks:
+  pre_setup: npm install
+tests:
+  - name: Mocha Tests
+    type: junit
+    command: mocha test --reporter mocha-junit-reporter
+    report_files:
+      - ./test-results.xml
