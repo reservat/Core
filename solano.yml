@@ -1,5 +1,5 @@
 nodejs:
-  version: '7.0.0'
+  version: '7.2.0'
 hooks:
   pre_setup: npm install
 tests:
