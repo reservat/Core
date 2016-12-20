@@ -1,5 +1,5 @@
 module.exports = class EsRepository {
-    constructor(config, data) {
+    constructor(config) {
         this.ES = require('../es/ESClient')(config);
         this.config = {
             debug : config.debug
