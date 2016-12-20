@@ -16,7 +16,7 @@ describe("Handling users", function() {
     });
 
     const userMapper = Reservat.UserMapper();
-    //const userRepo = Reservat.UserRepository();
+    const userRepo = Reservat.UserRepository();
 
     it("can have a hashed password", function(done){
         const userPassword = 'cake';
@@ -44,7 +44,7 @@ describe("Handling users", function() {
         })
     });
 
-    /*
+    
     it("can be found by e-mail address", function(done){
         userRepo.findByEmail(user.getEmail())
         .then((foundUser) => {
@@ -53,6 +53,7 @@ describe("Handling users", function() {
             done();
         });
     });
+
     
     it("can be found by a set of credentials", function(done){
         userRepo.findByCredentials(user.getEmail(), 'cake')
@@ -60,7 +61,7 @@ describe("Handling users", function() {
             done();
         });
     });
-    */
+    
     
     it("can be hard deleted from our storage provider", function(done){
         userMapper.delete(user)

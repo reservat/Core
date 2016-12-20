@@ -1,4 +1,5 @@
 "use strict"
+
 const MySQLEntity = require('./MySQL/Entity');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
