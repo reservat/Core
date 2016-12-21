@@ -1,11 +1,9 @@
 "use strict";
-
-const mysql = require('mysql');
 const helper = require('./Helper');
 
 module.exports = class MySQLMapper {
-    constructor(config) {
-        this.client = mysql.createConnection(config.mysql);
+    constructor(clients) {
+        this.client = clients.mysql.get()
     }
     update(entity) {
         return new Promise(function(resolve, reject){

@@ -1,10 +1,8 @@
 "use strict";
 
-const mysql = require('mysql');
-
 module.exports = class MySQLRepository {
-    constructor(config) {
-        this.client = mysql.createConnection(config.mysql);
+    constructor(clients) {
+        this.client = clients.mysql.get();
     }
     findById(id) {
         return new Promise(function(resolve, reject){
